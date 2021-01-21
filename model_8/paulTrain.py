@@ -10,10 +10,9 @@ import sys
 from mlflow import log_metric, log_param, log_artifacts
 
 # Specify a path
-train_datapath = "model_data/data"
-val_datapath= "model_data/validation_data"
-ACTION = ['left', 'none']
-
+train_datapath = "PaulSet/data"
+val_datapath= "PaulSet/val"
+ACTION = ['go', 'none']
 
 class RNN(nn.Module):
     def __init__(self, output_size=3):
@@ -22,11 +21,11 @@ class RNN(nn.Module):
 
         # self.lstm = nn.LSTM(input_size, hidden_layer_size, batch_first=True)
         # self.rn = nn.RNN(13, 9, 4)
-        self.conv1_1 = nn.Conv1d(16, 12, 3, stride=1, padding=2)
+        self.conv1_1 = nn.Conv1d(8, 6, 2, stride=1)
         self.maxpl_1 = nn.MaxPool1d(2, stride=1)
-        self.conv1_2 = nn.Conv1d(12, 12, 3, stride=1, padding=2)
+        self.conv1_2 = nn.Conv1d(6, 6, 3, stride=1)
         self.maxpl_2 = nn.MaxPool1d(2, stride=2)
-        self.o2s = nn.Linear(372, output_size)
+        self.o2s = nn.Linear(168, output_size)
         self.softmax = nn.LogSoftmax(dim=1)
 
 
@@ -37,7 +36,7 @@ class RNN(nn.Module):
         output = self.conv1_2(output)
         output = self.maxpl_2(output)
         # output, hidden = self.rn(output, hidden)
-        output = output.reshape(-1, 372)
+        output = output.reshape(-1, 168)
         # output = output.reshape(-1, 16 * 29)
         output = self.o2s(output)
         output = self.softmax(output)
