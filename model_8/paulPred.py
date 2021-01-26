@@ -66,15 +66,35 @@ def prediction(data):
     pred = max(argmax_dict.items(), key=operator.itemgetter(1))[0]
     print(ACTION[pred], f'{argmax_dict[0] * 100 / total:.2f}% {argmax_dict[1] * 100 / total:.2f}% {argmax_dict[2] * 100 / total:.2f}% ')
 
-model = net(output_size=2)
-model.load_state_dict(torch.load("my/convl/acc100.00.pt"))
-model.eval()
+def real_time_prediction(model, data):
+    argmax_dict = {0: 0, 1: 0, 2: 0}
+    for scq in data:
+        input = torch.FloatTensor(scq)
+        input = input.unsqueeze(0)
+        hiden = 0
 
-go = getData("PaulSet/val/go")
-none = getData("PaulSet/val/none")
+        output, hiden = model(input, hiden)
+        value = output.cpu().detach().numpy().argmax()
+        argmax_dict[value] += 1
 
-prediction(go)
-prediction(none)
+    total = argmax_dict[0] + argmax_dict[1] + argmax_dict[2]
+    pred = max(argmax_dict.items(), key=operator.itemgetter(1))[0]
+    print(ACTION[pred], f'{argmax_dict[0] * 100 / total:.2f}% {argmax_dict[1] * 100 / total:.2f}% {argmax_dict[2] * 100 / total:.2f}% ')
+
+
+def init(path="./acc100.00.pt"):
+    model = net(output_size=2)
+    model.load_state_dict(torch.load(path))
+    model.eval()
+    return model
+
+if __name__ == "__main__":
+    model = init()
+    go = getData("test/go")
+    none = getData("test/none")
+
+    prediction(go)
+    prediction(none)
 
 
 
