@@ -69,7 +69,6 @@ class TimeSeriesDataSet(Dataset):
     return len(self.X)
 
   def __getitem__(self, index):
-    # note that this isn't randomly selecting. It's a simple get a single item that represents an x and y
     _x = self.X[index]
     _y = self.Y[index]
 
@@ -100,8 +99,6 @@ def train(network, optimizer, train_set, train_labels, batch_size=32):
     for i in range (0, len(batch_data) // batch_size):
         loss = 0
         data, label = loader.next()
-
-        print("batch: ", data.size())
 
         optimizer.zero_grad()
         output = network(data)
@@ -148,7 +145,7 @@ print('Number of files:', len(data), len(labels), '\nShape:', data[0].shape, lab
 val_data, val_labels = getData(val_datapath)
 print('Validation data Created')
 print('Number of files:', len(val_data), len(val_labels), '\nShape:', val_data[0].shape, labels[0], '\n------\n')
-# data[xxxx as entries][16 as electrodes][60 as amplitude]
+# data[xxxx as entries][8 as electrodes][60 as amplitude]
 
 data, labels = sklearn.utils.shuffle(data, labels)
 val_data, val_labels = sklearn.utils.shuffle(val_data, val_labels)
