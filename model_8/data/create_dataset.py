@@ -7,12 +7,10 @@ import time
 import matplotlib.pyplot as plt
 from matplotlib import style
 from collections import deque
-import paulPred
 import sys
 
 def connect_to_stream(model_path="./acc100.00.pt"):
     # first resolve an EEG stream on the lab network
-    print(model_path)
     print("looking for an EEG stream...")
     streams = resolve_stream('type', 'EEG')
     # create a new inlet to read from the stream
@@ -22,7 +20,6 @@ def connect_to_stream(model_path="./acc100.00.pt"):
     wait = 3 # wait 3 seconds before recording
     total = 100
     count = 0
-    model = paulPred.init(model_path)
 
     while True:
 
@@ -45,12 +42,11 @@ def connect_to_stream(model_path="./acc100.00.pt"):
             elif (count >= wait + total):
                 break
             else:
-                # stamp = time.time() * 10
-                # stamp = int(stamp - (stamp % 1))
-                # name = "data" + str(stamp)
-                # np.save(name, data)
-                # print(name, np.shape(data))
-                paulPred.real_time_prediction(model, data)
+                stamp = time.time() * 10
+                stamp = int(stamp - (stamp % 1))
+                name = "data" + str(stamp)
+                np.save(name, data)
+                print(name, np.shape(data))
                 data = []
             count += 1
         data.append(arr)
@@ -58,5 +54,5 @@ def connect_to_stream(model_path="./acc100.00.pt"):
 if __name__ == "__main__":
     if (len(sys.argv) == 1):
         connect_to_stream()
-    elif (len(sys.argv) == 2):
+    else:
         connect_to_stream(sys.argv[1])

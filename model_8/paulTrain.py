@@ -10,9 +10,9 @@ import sys
 from mlflow import log_metric, log_param, log_artifacts
 
 # Specify a path
-train_datapath = "PaulSet/data"
-val_datapath= "PaulSet/val"
-ACTION = ['go', 'none']
+train_datapath = "dataset/train"
+val_datapath= "dataset/val"
+ACTION = ['go3', 'none']
 
 class RNN(nn.Module):
     def __init__(self, output_size=3):
@@ -228,7 +228,7 @@ for epoch in range(epochs):
     log_metric("test_acc", testing_accuracy)
     log_metric("test_loss", testing_loss)
 
-    torch.save(rnn.state_dict(), f'my/convl/acc{testing_accuracy:.2f}.pt')
+    torch.save(rnn.state_dict(), f'models/moderate/{testing_accuracy:.2f}.pt')
 
 print('DONE')
 
