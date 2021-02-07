@@ -18,7 +18,7 @@ def connect_to_stream(model_path="./acc100.00.pt"):
 
     data = []
     wait = 3 # wait 3 seconds before recording
-    total = 100
+    total = 166
     count = 0
 
     while True:
