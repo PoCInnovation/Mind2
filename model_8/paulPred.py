@@ -80,6 +80,7 @@ def real_time_prediction(model, data):
     total = argmax_dict[0] + argmax_dict[1] + argmax_dict[2]
     pred = max(argmax_dict.items(), key=operator.itemgetter(1))[0]
     print(ACTION[pred], f'{argmax_dict[0] * 100 / total:.2f}% {argmax_dict[1] * 100 / total:.2f}% {argmax_dict[2] * 100 / total:.2f}% ')
+    return ACTION[pred]
 
 
 def init(path="./acc100.00.pt"):

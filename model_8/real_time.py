@@ -3,10 +3,6 @@
 ### Thanks to @Sentdex - Nov 2019
 from pylsl import StreamInlet, resolve_stream
 import numpy as np
-import time
-import matplotlib.pyplot as plt
-from matplotlib import style
-from collections import deque
 import paulPred
 import sys
 
