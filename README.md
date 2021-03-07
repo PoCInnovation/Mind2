@@ -6,7 +6,9 @@ For the English version check: [README_ENGLISH.md](README_ENGLISH.md)
 
 Le projet Mind est un projet réalisé dans le cadre de l'association PoC. Il a pour but de détecter et d'analyser les signaux mentaux ou "Brainwaves" grâce à l'aide d'un casque EEG (Electroencephalographe).
 
-[![alt text](http://img.youtube.com/vi/12wdhqHyKLE/hqdefault.jpg)](https://youtu.be/12wdhqHyKLE)
+Video de présentation du projet mind https://youtu.be/vZjL93esWt0 :
+
+[![alt text](http://img.youtube.com/vi/vZjL93esWt0/hqdefault.jpg)](https://youtu.be/vZjL93esWt0)
 
 La version actuelle du projet utilise le casque EEG opensource d'[OpenBCI](https://openbci.com/) : le [Ultracortex mark IV](https://shop.openbci.com/collections/frontpage/products/ultracortex-mark-iv). Le "Chipset" que l'on utilise est le [Cyton](https://docs.openbci.com/docs/02Cyton/CytonLanding) avec le [WifiShield](https://docs.openbci.com/docs/05ThirdParty/03-WiFiShield/WiFiLanding). Des membres de PoC ont imprimé et installé le casque dans une itération précédente.
 
@@ -79,3 +81,8 @@ Les scripts et leur utilisation :
   - ```$> python3 mindIM.py```
   - Lancez la scène Unity
 ![start-unity-scene]()
+
+
+## Conclusion
+avancée du projet
+projet pas concluant
