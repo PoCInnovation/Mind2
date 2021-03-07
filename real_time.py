@@ -3,7 +3,7 @@
 ### Thanks to @Sentdex - Nov 2019
 from pylsl import StreamInlet, resolve_stream
 import numpy as np
-import paulPred
+import mindPred
 import sys
 
 def connect_to_stream(model_path="./acc100.00.pt"):
@@ -18,7 +18,7 @@ def connect_to_stream(model_path="./acc100.00.pt"):
     wait = 3 # wait 3 seconds before recording
     total = 100
     count = 0
-    model = paulPred.init(model_path)
+    model = mindPred.init(model_path)
 
     while True:
 
@@ -46,7 +46,7 @@ def connect_to_stream(model_path="./acc100.00.pt"):
                 # name = "data" + str(stamp)
                 # np.save(name, data)
                 # print(name, np.shape(data))
-                paulPred.real_time_prediction(model, data)
+                mindPred.real_time_prediction(model, data)
                 data = []
             count += 1
         data.append(arr)

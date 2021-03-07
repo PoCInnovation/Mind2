@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import time
-import paulPred
+import mindPred
 from pylsl import StreamInlet, resolve_stream
 
 import socket
@@ -50,7 +50,7 @@ def sending_and_reciveing(c, message):
 
 # if __name__ == "__main__":
 #     c = initLink()
-#     model = paulPred.init("./acc100.00.pt")
+#     model = mindPred.init("./acc100.00.pt")
 
 #     t_end = time.time() + 15
 #     while time.time() < t_end:
@@ -59,7 +59,7 @@ def sending_and_reciveing(c, message):
 #         while time.time() < t_none:
 #             time.sleep(0.05)
 #             data = getFile("./data/none/none.npy")
-#             thought = paulPred.real_time_prediction(model, data)
+#             thought = mindPred.real_time_prediction(model, data)
 #             if thought == "go":
 #                 sending_and_reciveing(c, "go")
 #             else:
@@ -69,7 +69,7 @@ def sending_and_reciveing(c, message):
 #         while time.time() < t_go:
 #             time.sleep(0.05)
 #             data = getFile("./data/go/go.npy")
-#             thought = paulPred.real_time_prediction(model, data)
+#             thought = mindPred.real_time_prediction(model, data)
 #             if thought == "go":
 #                 sending_and_reciveing(c, "go")
 #             else:
@@ -99,13 +99,13 @@ if __name__ == "__main__":
     streams = resolve_stream('type', 'EEG')
     inlet = StreamInlet(streams[0])
     c = initLink()
-    model = paulPred.init("./acc100.00.pt")
+    model = mindPred.init("./acc100.00.pt")
 
     t_end = time.time() + 60
     while time.time() < t_end:
         time.sleep(0.05)
         data = recieve_data(inlet)
-        thought = paulPred.real_time_prediction(model, data)
+        thought = mindPred.real_time_prediction(model, data)
         if thought == "go":
             sending_and_reciveing(c, "go")
         else:
