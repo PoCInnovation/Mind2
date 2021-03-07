@@ -42,62 +42,13 @@ def initLink ():
 
 def sending_and_reciveing(c, message):
         my_str_as_bytes = c.recv(4000) #received bytes
-        print(my_str_as_bytes.decode())
+        # print(my_str_as_bytes.decode())
 
         bytes_to_send = str.encode(message)
         c.sendall(bytes_to_send) #sending back
 
 
-if __name__ == "__main__":
-    c = initLink()
-    model = paulPred.init("./acc100.00.pt")
-
-    t_end = time.time() + 15
-    while time.time() < t_end:
-
-        t_none = time.time() + 5
-        while time.time() < t_none:
-            time.sleep(0.05)
-            data = getFile("./data/none/none.npy")
-            thought = paulPred.real_time_prediction(model, data)
-            if thought == "go":
-                sending_and_reciveing(c, "go")
-            else:
-                sending_and_reciveing(c, "none")
-            print(thought)
-        t_go = time.time() + 4
-        while time.time() < t_go:
-            time.sleep(0.05)
-            data = getFile("./data/go/go.npy")
-            thought = paulPred.real_time_prediction(model, data)
-            if thought == "go":
-                sending_and_reciveing(c, "go")
-            else:
-                sending_and_reciveing(c, "none")
-            print(thought)
-    print("Done")
-    time.sleep(10)
-
-# def recieve_data(inlet):
-#     data = []
-#     while (np.shape(data)[0] < 25):
-#         channel_data = {}
-#         for i in range(8): # each of the 16 channels here
-#             sample, timestamp = inlet.pull_sample()
-#             if i not in channel_data:
-#                 channel_data[i] = sample
-#             else:
-#                 channel_data[i].append(sample)
-#         tmp = []
-#         for i in range(8):
-#             tmp.append(np.array(channel_data[i][:60]))
-#         arr = np.array(tmp)
-#         data.append(arr)
-#     return data
-
 # if __name__ == "__main__":
-#     streams = resolve_stream('type', 'EEG')
-#     inlet = StreamInlet(streams[0])
 #     c = initLink()
 #     model = paulPred.init("./acc100.00.pt")
 
@@ -107,7 +58,17 @@ if __name__ == "__main__":
 #         t_none = time.time() + 5
 #         while time.time() < t_none:
 #             time.sleep(0.05)
-#             data = recieve_data(inlet)
+#             data = getFile("./data/none/none.npy")
+#             thought = paulPred.real_time_prediction(model, data)
+#             if thought == "go":
+#                 sending_and_reciveing(c, "go")
+#             else:
+#                 sending_and_reciveing(c, "none")
+#             print(thought)
+#         t_go = time.time() + 4
+#         while time.time() < t_go:
+#             time.sleep(0.05)
+#             data = getFile("./data/go/go.npy")
 #             thought = paulPred.real_time_prediction(model, data)
 #             if thought == "go":
 #                 sending_and_reciveing(c, "go")
@@ -116,3 +77,39 @@ if __name__ == "__main__":
 #             print(thought)
 #     print("Done")
 #     time.sleep(10)
+
+def recieve_data(inlet):
+    data = []
+    while (np.shape(data)[0] < 25):
+        channel_data = {}
+        for i in range(8): # each of the 16 channels here
+            sample, timestamp = inlet.pull_sample()
+            if i not in channel_data:
+                channel_data[i] = sample
+            else:
+                channel_data[i].append(sample)
+        tmp = []
+        for i in range(8):
+            tmp.append(np.array(channel_data[i][:60]))
+        arr = np.array(tmp)
+        data.append(arr)
+    return data
+
+if __name__ == "__main__":
+    streams = resolve_stream('type', 'EEG')
+    inlet = StreamInlet(streams[0])
+    c = initLink()
+    model = paulPred.init("./acc100.00.pt")
+
+    t_end = time.time() + 60
+    while time.time() < t_end:
+        time.sleep(0.05)
+        data = recieve_data(inlet)
+        thought = paulPred.real_time_prediction(model, data)
+        if thought == "go":
+            sending_and_reciveing(c, "go")
+        else:
+            sending_and_reciveing(c, "none")
+        print(thought)
+    print("Done")
+    time.sleep(10)
