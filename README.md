@@ -16,6 +16,8 @@ La version actuelle du projet utilise le casque EEG opensource d'[OpenBCI](https
 
 Le casque détecte les signaux et les diffuse sur son propre réseau wifi. L'ordinateur peut, en étant connecté à ce réseau, capter les données grâce à la GUI d'OpenBCI et les transmettre vers un flux LSL. Ces données peuvent ensuite être récupérées dans un script Python grâce à la librairie `pylsl`.
 
+La donnée transmise par la GUI d'OpenBCI n'est pas un flux de données pur, mais un flux modifié. OpenBCI  propose un module de représentation en [graphe FFT](https://docs.openbci.com/docs/06Software/01-OpenBCISoftware/GUIWidgets#fft-plot) des brainwaves. Ces données FFT sont celles que l'on transmet à notre IA.
+
 À partir de ces données, nous avons créé un dataset composé de deux labels: `go` et `none`.
 
 Dans un premier temps, l'IA aura besoin de s'entraîner à différencier un signal `go` d'un signal `none`. Pour ce faire, nous devons concevoir une architecture prenant cette forme :
@@ -36,13 +38,9 @@ Notre réseau de neurones est basé sur des layers de convolution. Grâce à l'u
 
 À noter qu'il est aussi possible d'analyser les données envoyées par le casque en les regroupant par paquet. Cette méthode nécessite d'utiliser un réseau de neurones dit récurent (RNN). Une partie de nos recherches s'est orientée sur cette approche. Mais le casque ne disposant pas de suffisamment d'électrodes, nous ne pouvions en tirer un résultat suffisamment précis.
 
-L'itération actuelle du projet utilise ces données en tandem avec une scène Unity à travers des sockets.
+L'itération actuelle du projet utilise ces données en tandem avec une scène Unity. Un script se charge d'envoyer la prédiction de notre IA via le protocole TCP à notre application Unity.
 
 ![explications](resources/fr.png)
-
-La GUI d'OpenBCI fonctionne avec un système de "widgets", des modules que l'ont peut choisir et remplacer. Parmi les widgets, on retrouve les modules FFT et Networking que nous avons utilisé et dont nous allons préciser l'utilisation.
-
-La donnée transmise par la GUI d'OpenBCI n'est pas un flux de données pur, mais un flux modifié. OpenBCI  propose un module de représentation en [graphe FFT](https://docs.openbci.com/docs/06Software/01-OpenBCISoftware/GUIWidgets#fft-plot) des brainwaves. Ces données FFT sont celles que l'on transmet à notre IA.
 
 ## Installation et utilisation
 
@@ -68,7 +66,7 @@ Le projet à été testé et fonctionne sur Windows. Unity est instable sous les
   - Allumez ou éteignez le casque grâce aux valeurs `ON` et `OFF` du bouton situé à droite du WifiShield
 ![Power]()
   - Une fois allumé, le casque émet un réseau wifi auquel vous pourrez vous connecter avec votre ordinateur.
-  - Positionnez le casque sur votre tête, chipset à l'arrière, et branchez les deux pinces sur vos lobes d'oreille
+  - Positionnez le casque sur votre tête, chipset à l'arrière, et accrochez les deux pinces sur vos lobes d'oreille
 - La GUI :
   - Lancez la GUI
   - Dans le `System Control Panel` sélectionnez `CYTON (live)` puis `Wifi (from Wifi Shield)` et enfin `STATIC IP`
@@ -80,6 +78,8 @@ Le projet à été testé et fonctionne sur Windows. Unity est instable sous les
   - Sous la rubrique `Stream 1`, cliquez sur le menu déroulant `None` et sélectionnez `FFT`
   - cliquez sur `Start` pour lancer le flux de données LSL
 
+La GUI d'OpenBCI fonctionne avec un système de "widgets", des modules que l'ont peut choisir et remplacer. Parmi les widgets, on retrouve les modules FFT et Networking que nous avons utilisé et dont nous allons préciser l'utilisation.
+
 #### Unity :
 - Lancez le Unity Hub
 - Ajoutez ce projet à vos projets Unity : cliquez sur `ADD` et naviguez vers le dossier [unity](unity/)
@@ -88,11 +88,11 @@ Le projet à été testé et fonctionne sur Windows. Unity est instable sous les
 Ca y est, votre donnée est récupérable facilement avec un script python et est déjà partiellement traitée (Donnée FFT). Les étapes suivantes ne sont applicables uniquement pour les scripts et fichiers de ce Dépot Github.
 
 Les scripts et leur utilisation :
-- [create_dataset.py](data/create_dataset.py) : créé un des datasets numpy de 1 seconde de la forme [25,8,60]
+- [create_dataset.py](data/create_dataset.py) : créé un des datapoint numpy de 1 seconde de la forme [25,8,60]
   - 25 : quantité moyenne de datapoints par seconde
-  - 8 : nombre d'électrodes du casque
-  - 60 : La donnée FFT divise la donnée sur 125 fréquences mais seules celles inférieures à 60 sont utilisable à cause du bruit électromagnétique 
-- [mindTrain.py](mindTrain.py) : créé un modèle de machine learning à partir des fichier numpy
+  - 8 : nombre d'électrodes de notre casque
+  - 60 : La donnée FFT est disponible sur 125 fréquences mais seules celles inférieures à 60 sont utilisable à cause du bruit électromagnétique 
+- [mindTrain.py](mindTrain.py) : créé un modèle de deep learning à partir des fichier numpy
 - [mindPred.py](mindPred.py) : lance des prédictions sur un set de données
 - [real_time.py](real_time.py) : permet de la prédiction en temps réel
   - Une fois toutes les étapes de [l'installation](#Installation) et de [l'utilisation](#Utilisation) terminées, vous pouvez utiliser ce script pour prédire `go` ou `none` en temps réel
@@ -103,6 +103,15 @@ Les scripts et leur utilisation :
   - Lancez la scène Unity
 ![start-unity-scene]()
 
+## Annexe
+Nous fournissons aussi une intégration d'un outil permettant de réaliser du MLOPS dans ce projet, avec Mlflow.
+
+Mlflow est un outil permettant de suivre avec précision l'évolution de l'apprentissage de votre IA en rajouter des tags sur vos paramètres pour les faire apparaître sur la GUI que l'outil propose.
+
+Pour la démarrer la GUI, lancez la commande `$> mlflow ui` dans votre terminal. Mlflow se lance sur le port 5000 par défaut et est accessible via cette adresse dans votre navigateur : [`http://127.0.0.1:5000/`](http://127.0.0.1:5000/)
+
+- [Installation](https://www.mlflow.org/docs/latest/quickstart.html) de Mlflow
+- [Documentation](https://www.mlflow.org/docs/latest/index.html) de Mlflow
 
 ## Conclusion
 
