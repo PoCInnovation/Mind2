@@ -4,11 +4,11 @@ For the English version check: [README_ENGLISH.md](README_ENGLISH.md)
 
 ## Présentation
 
-Le projet Mind est un projet réalisé dans le cadre de l'association PoC. Il a pour but de détecter et d'analyser les signaux mentaux ou "Brainwaves" grâce à l'aide d'un casque EEG (Electroencephalographe).
+Le projet Mind est un projet réalisé dans le cadre de l'association PoC. Il a pour but de détecter et d'analyser les signaux mentaux ou "Brainwaves" grâce à l'aide d'un casque EEG (Électroencéphalographe).
 
-Video de présentation du projet mind https://youtu.be/vZjL93esWt0 :
+Vidéo de présentation du projet mind https://youtu.be/vZjL93esWt0 :
 
-[![alt text](http://img.youtube.com/vi/vZjL93esWt0/hqdefault.jpg)](https://youtu.be/vZjL93esWt0)
+[![vidéo présentation](http://img.youtube.com/vi/vZjL93esWt0/hqdefault.jpg)](https://youtu.be/vZjL93esWt0)
 
 La version actuelle du projet utilise le casque EEG opensource d'[OpenBCI](https://openbci.com/) : le [Ultracortex mark IV](https://shop.openbci.com/collections/frontpage/products/ultracortex-mark-iv). Le "Chipset" que l'on utilise est le [Cyton](https://docs.openbci.com/docs/02Cyton/CytonLanding) avec le [WifiShield](https://docs.openbci.com/docs/05ThirdParty/03-WiFiShield/WiFiLanding). Des membres de PoC ont imprimé et installé le casque dans une itération précédente.
 
@@ -16,18 +16,39 @@ La version actuelle du projet utilise le casque EEG opensource d'[OpenBCI](https
 
 Le casque détecte les signaux et les diffuse sur son propre réseau wifi. L'ordinateur peut, en étant connecté à ce réseau, capter les données grâce à la GUI d'OpenBCI et les transmettre vers un flux LSL. Ces données peuvent ensuite être récupérées dans un script Python grâce à la librairie `pylsl`.
 
-A partir de ces données nous avons créé deux datasets : `go` et `none`. description de l'IA
+À partir de ces données, nous avons créé un dataset composé de deux labels: `go` et `none`.
 
-L'itération actuelle du projet utilise ces données en tandem avec une scene Unity à travers des sockets. 
+Dans un premier temps, l'IA aura besoin de s'entraîner à différencier un signal `go` d'un signal `none`. Pour ce faire, nous devons concevoir une architecture prenant cette forme :
 
-expliquer FFT networking
-expliquer widget
+- Dataset :
+  - data (données utilisées pour l'entraînement)
+    - go
+    - none
+  - val (données utilisées pour la phase de validation)
+    - go
+    - none
+
+
+L'IA va récupérer tous les enregistrements labellisés grâce aux fichiers, les sortir de leur contexte et les mélanger aléatoirement. Elle va ensuite procéder au processus d'apprentissage pour générer un modèle basé sur les données que vous lui avez fournies.
+
+
+Notre réseau de neurones est basé sur des layers de convolution. Grâce à l'utilisation d'un tel réseau, nous pouvons analyser indépendamment chaque input de data envoyé par le casque et ainsi renvoyer un résultat en temps réel sans aucune latence.
+
+À noter qu'il est aussi possible d'analyser les données envoyées par le casque en les regroupant par paquet. Cette méthode nécessite d'utiliser un réseau de neurones dit récurent (RNN). Une partie de nos recherches s'est orientée sur cette approche. Mais le casque ne disposant pas de suffisamment d'électrodes, nous ne pouvions en tirer un résultat suffisamment précis.
+
+L'itération actuelle du projet utilise ces données en tandem avec une scène Unity à travers des sockets.
+
+![explications](resources/fr.png)
+
+La GUI d'OpenBCI fonctionne avec un système de "widgets", des modules que l'ont peut choisir et remplacer. Parmi les widgets, on retrouve les modules FFT et Networking que nous avons utilisé et dont nous allons préciser l'utilisation.
+
+La donnée transmise par la GUI d'OpenBCI n'est pas un flux de données pur, mais un flux modifié. OpenBCI  propose un module de représentation en [graphe FFT](https://docs.openbci.com/docs/06Software/01-OpenBCISoftware/GUIWidgets#fft-plot) des brainwaves. Ces données FFT sont celles que l'on transmet à notre IA.
 
 ## Installation et utilisation
 
-Une documentation complète des produit d'OpenBCI est [ici](https://docs.openbci.com/docs/Welcome.html).
+Une documentation complète des produits d'OpenBCI est [ici](https://docs.openbci.com/docs/Welcome.html).
 
-Le projet à été testé et fonctionne sur Windows. Unity est instable sous les distributions Linux mais le projet devrait aussi fonctionner dans cet environnement.
+Le projet à été testé et fonctionne sur Windows. Unity est instable sous les distributions Linux, mais le projet devrait aussi fonctionner dans cet environnement.
 
 #### Installation :
 - Du casque :
@@ -56,15 +77,15 @@ Le projet à été testé et fonctionne sur Windows. Unity est instable sous les
 - Le flux de données LSL :
   - Une fois votre flux principal de données lancé, changez votre widget `Accelerometer` en un widget `Networking` en ouvrant le menu déroulant qu'est nom du widget
   - Sélectionnez le menu déroulant `Serial` et choisissez `LSL`
-  - Sous la rubrique `Stream 1`, clickez sur le menut déroulant `None` et sélectionnez `FFT`
-  - Clickez sur `Start` pour lancer le flux de données LSL
+  - Sous la rubrique `Stream 1`, cliquez sur le menu déroulant `None` et sélectionnez `FFT`
+  - cliquez sur `Start` pour lancer le flux de données LSL
 
 #### Unity :
 - Lancez le Unity Hub
-- Ajoutez ce projet à vos projets Unity : clickez sur `ADD` et naviguez vers le dossier [unity](unity/)
+- Ajoutez ce projet à vos projets Unity : cliquez sur `ADD` et naviguez vers le dossier [unity](unity/)
 - Lancez le projet avec une version compatible de Unity. Ce projet à été réalisé avec la version `2019.4.12f1`
 
-Ca y est, votre donnée est récupérable facilement avec un script python et est déjà partiellement traitée (Donnée FFT). Les étapes suivantes ne sont applicable uniquement pour les scripts et fichiers de ce Dépot Github.
+Ca y est, votre donnée est récupérable facilement avec un script python et est déjà partiellement traitée (Donnée FFT). Les étapes suivantes ne sont applicables uniquement pour les scripts et fichiers de ce Dépot Github.
 
 Les scripts et leur utilisation :
 - [create_dataset.py](data/create_dataset.py) : créé un des datasets numpy de 1 seconde de la forme [25,8,60]
@@ -84,5 +105,9 @@ Les scripts et leur utilisation :
 
 
 ## Conclusion
-avancée du projet
-projet pas concluant
+
+L'objectif de cette itération du projet était de revenir au niveau de l'itération précédente, sur laquelle nous n'avions peu à aucune information. De construire sur cette base pour pouvoir faire une utilisation concrète du casque Mind. Malheureusement, notre projet n'est que fonctionnel et les résultats obtenus avec le casque ne sont pas concluants.
+
+Notre IA actuelle ne fonctionne qu'avec deux labels et la précision du casque est fortement en question. Ce manque de précision avait déjà été noté lors de l'itération précédente et il ne semble pas être corrigeable. De plus, les visuels de la GUI d'OpenBCI ne ressemblent pas à toute les démonstration de ce produit disponible en ligne, ce qui laisse du doute par rapport à la fiabilité du matériel, même par rapport aux autres casques Ultracortex Mark IV.
+
+Pour conclure, pour la prochaine itération, nous recommandons un casque avec plus de précision et qui soit une valeur sûre sur le plan professionnel.
