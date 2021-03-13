@@ -3,7 +3,7 @@
 Pour la version Francaise consultez : [README.md](README.md)
 
 ## Presentation
-Mind is a project created by members of the french student association PoC. Its goal is to detect and analyze brainwaves using an EEG headset (Electroencephalograph).
+Mind is a project created by members of the french student innovation center PoC. Its goal is to detect and analyze brainwaves using an EEG headset (Electroencephalograph).
 
 Subtitled video presentation https://youtu.be/vZjL93esWt0 :
 
