@@ -121,7 +121,7 @@ Pour la démarrer la GUI, lancez la commande `$> mlflow ui` dans votre terminal.
 L'objectif de cette itération du projet était de revenir au niveau de l'itération précédente, sur laquelle nous n'avions peu à aucune information. De construire sur cette base pour pouvoir faire une utilisation concrète du casque Mind. Malheureusement, notre projet n'est que fonctionnel et les résultats obtenus avec le casque ne sont pas concluants.
 <br/>
 <br/>
-Notre IA actuelle ne fonctionne qu'avec deux labels et la précision du casque est fortement en question. Ce manque de précision avait déjà été noté lors de l'itération précédente et il ne semble pas être corrigeable. De plus, les visuels de la GUI d'OpenBCI ne ressemblent pas à toute les démonstration de ce produit disponible en ligne, ce qui laisse du doute par rapport à la fiabilité du matériel, même par rapport aux autres casques Ultracortex Mark IV.
+Notre IA actuelle ne fonctionne qu'avec deux labels et nous suposons que le casque manque de précision. Ce manque de précision avait déjà été noté lors de l'itération précédente et il ne semble pas être corrigeable. De plus, les visuels de la GUI d'OpenBCI ne ressemblent pas à toute les démonstration de ce produit disponible en ligne, ce qui laisse du doute par rapport à la fiabilité du matériel, même par rapport aux autres casques Ultracortex Mark IV.
 <br/>
 <br/>
 Pour conclure, pour la prochaine itération, nous recommandons un casque avec plus de précision et qui soit une valeur sûre sur le plan professionnel.
