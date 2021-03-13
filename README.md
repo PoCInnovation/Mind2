@@ -60,11 +60,11 @@ Le projet à été testé et fonctionne sur Windows. Unity est instable sous les
 #### Utilisation :
 - Le casque (vue de dos):
   - Le bouton situé sur la droite du Cyton chipset doit être positionné sur `PC`
-![PC]()
+![PC](resources/PC.JPG)
   - Le bouton situé en bas à gauche du WifiShield doit être positionné sur `ON`
-![Ext-Pwr]()
+![Ext-Pwr](resources/EXT_PWR.JPG)
   - Allumez ou éteignez le casque grâce aux valeurs `ON` et `OFF` du bouton situé à droite du WifiShield
-![Power]()
+![Power](resources/ON_OFF.JPG)
   - Une fois allumé, le casque émet un réseau wifi auquel vous pourrez vous connecter avec votre ordinateur.
   - Positionnez le casque sur votre tête, chipset à l'arrière, et accrochez les deux pinces sur vos lobes d'oreille
 - La GUI :
@@ -101,7 +101,7 @@ Les scripts et leur utilisation :
   - Une fois toutes les étapes de [l'installation](#Installation), de [l'utilisation](#Utilisation) et de [Unity](#Unity) terminées, vous pouvez utiliser ce script pour visualiser vos prédictions sur unity en temps réel
   - ```$> python3 mindIM.py```
   - Lancez la scène Unity
-![start-unity-scene]()
+![start-unity-scene](resources/unity_start_scene.PNG)
 
 ## Annexe
 Nous fournissons aussi une intégration d'un outil permettant de réaliser du MLOPS dans ce projet, avec Mlflow.
@@ -115,8 +115,14 @@ Pour la démarrer la GUI, lancez la commande `$> mlflow ui` dans votre terminal.
 
 ## Conclusion
 
+<img style="float:left" align="left" width="20%" src="resources/left.JPG">
+<img style="float:right" align="right" width="20%" src="resources/right.JPG">
+<div style="width:56%; margin-left:22%" align="justify">
 L'objectif de cette itération du projet était de revenir au niveau de l'itération précédente, sur laquelle nous n'avions peu à aucune information. De construire sur cette base pour pouvoir faire une utilisation concrète du casque Mind. Malheureusement, notre projet n'est que fonctionnel et les résultats obtenus avec le casque ne sont pas concluants.
-
+<br/>
+<br/>
 Notre IA actuelle ne fonctionne qu'avec deux labels et la précision du casque est fortement en question. Ce manque de précision avait déjà été noté lors de l'itération précédente et il ne semble pas être corrigeable. De plus, les visuels de la GUI d'OpenBCI ne ressemblent pas à toute les démonstration de ce produit disponible en ligne, ce qui laisse du doute par rapport à la fiabilité du matériel, même par rapport aux autres casques Ultracortex Mark IV.
-
+<br/>
+<br/>
 Pour conclure, pour la prochaine itération, nous recommandons un casque avec plus de précision et qui soit une valeur sûre sur le plan professionnel.
+</div>

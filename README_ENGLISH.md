@@ -58,11 +58,11 @@ This project has been tested and works in a Windows environment. Despite Unity b
 #### Usage :
 - Of the headset (back view):
   - The button situated on the right side of the Cyton chipset must be set to `PC`
-![PC]()
+![PC](resources/PC.JPG)
   - The button situated on the bottom left of the Wifi SHield must be set to `ON`
-![Ext-Pwr]()
+![Ext-Pwr](resources/EXT_PWR.JPG)
   - Turn the headset `ON` or `OFF`  using the switch on the right side of the Wifi Shield
-![Power]()
+![Power](resources/ON_OFF.JPG)
   - Once powered on, blue LEDs will turn on and the headset will emit a Wifi network to which you can connect your computer.
   - Place the headset on your head, chipset facing backward, and attach the two ear clips to your earlobes
 - Of the GUI :
@@ -97,7 +97,7 @@ The scripts and their usage:
   - Once all of the [installation](#Installation),[usage](#Usage), and [Unity](#Unity) steps completed, you can use this script to visualize your predictions in real-time through Unity
   - ```$> python3 mindIM.py```
   - Start the Unity scene
-![start-unity-scene]()
+![start-unity-scene](resources/unity_start_scene.PNG)
 
 ## Annex
 We also provide an integration of a tool allowing us to use MLOPS in this project: Mlflow.
@@ -112,8 +112,12 @@ To launch this GUI, use the `$> mlflow ui` command in your terminal. Mlflow will
 
 ## Conclusion
 
+<img style="float:left" align="left" width="20%" src="resources/left.JPG">
+<img style="float:right" align="right" width="20%" src="resources/right.JPG">
+<div style="width:56%; margin-left:22%" align="justify">
 The goal of this iteration was to get back to the development level of the previous iteration, on which we had little to no information. We wanted to build upon this base to make concrete use of the headset. Unfortunately, our project is only functional, and the results we obtained are not trustworthy.
-
+<br/><br/>
 Our current AI only works with two labels and we doubt the precision of the headset. This lack of precision had already been noted in the previous iterations and it does not seem fixable. In addition, the visuals of the OpenBCI GUI do not resemble the demonstrations of the product available online, which puts into question our headset's reliability, even when compared to other Ultracortex Mark IV headsets.
-
+<br/><br/>
 In conclusion, for the next iteration, we recommend a more precise headset that has more professional approval.
+</div>
