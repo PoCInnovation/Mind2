@@ -4,7 +4,7 @@ For the English version check: [README_ENGLISH.md](README_ENGLISH.md)
 
 ## Présentation
 
-Le projet Mind est un projet réalisé dans le cadre de l'association PoC. Il a pour but de détecter et d'analyser les signaux mentaux ou "Brainwaves" grâce à l'aide d'un casque EEG (Électroencéphalographe).
+Le projet Mind est un projet réalisé dans le cadre du centre d'innovation étudiant PoC. Il a pour but de détecter et d'analyser les signaux mentaux ou "Brainwaves" grâce à l'aide d'un casque EEG (Électroencéphalographe).
 
 Vidéo de présentation du projet mind https://youtu.be/vZjL93esWt0 :
 
